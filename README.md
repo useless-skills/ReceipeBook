@@ -20,4 +20,4 @@ To keep admin files out of the repo, add `admin.html` and `server.py` to `.gitig
 - categories: id, name, order (sorts the shopping list)
 - ingredients: id, name, unit_id, category_id
 - recipes: id, title, image, servings, ingredients[{ingredient_id, quantity}], steps[]
-Quantities are stored for the recipe's base servings. Viewer scales with ceil(q * wanted / base) per recipe, then sums per ingredient across meals.
+Quantities are stored for the recipe's base servings. Viewer scales with q * wanted / base (no rounding, shown with up to 2 decimals), then sums per ingredient across meals.

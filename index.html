@@ -56,7 +56,8 @@ const DB={};let list=[],cur=null;
 try{list=JSON.parse(localStorage.getItem('shopList'))||[]}catch(e){}
 const store=()=>{try{localStorage.setItem('shopList',JSON.stringify(list))}catch(e){}};
 const by=(k,id)=>DB[k].find(x=>x.id===id);
-const scale=(q,base,n)=>Math.ceil(q*n/base-1e-9);   // always round up
+const scale=(q,base,n)=>q*n/base;   // exact scaling, no rounding
+const fmt=x=>String(Math.round(x*100)/100);   // display: max 2 decimals
 const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',1800)};
 const pic=r=>`<div class="img">🍽️${r.image?`<img src="${esc(r.image)}" alt="" loading="lazy" onerror="this.remove()">`:''}</div>`;
 
@@ -82,7 +83,7 @@ function openRecipe(id){
 function ings(){
   const n=Math.max(1,parseInt($('#n').value)||1);
   $('#ings').innerHTML=cur.ingredients.map(i=>{const g=by('ingredients',i.ingredient_id),u=by('units',g.unit_id);
-    return `<li><span>${esc(g.name)}</span><b>${scale(i.quantity,cur.servings,n)} ${esc(u.abbr)}</b></li>`}).join('');
+    return `<li><span>${esc(g.name)}</span><b>${fmt(scale(i.quantity,cur.servings,n))} ${esc(u.abbr)}</b></li>`}).join('');
 }
 
 // Sum all meals into one compact list
@@ -94,11 +95,11 @@ function totals(){
    .sort((a,b)=>(a.c?.order??99)-(b.c?.order??99)||a.g.name.localeCompare(b.g.name));
 }
 const badge=()=>$('#fab').textContent=`🛒 Shopping list (${list.length})`;
-function listText(){return totals().map(t=>`${t.g.name}: ${t.q} ${t.u.abbr}`).join('\n')}
+function listText(){return totals().map(t=>`${t.g.name}: ${fmt(t.q)} ${t.u.abbr}`).join('\n')}
 function openList(){
   const t=totals();let last,h='';
   for(const x of t){if(x.c?.id!==last){last=x.c?.id;h+=`<div class="cat">${esc(x.c?.name||'Other')}</div>`}
-    h+=`<div class="meal"><span>${esc(x.g.name)}</span><b>${x.q} ${esc(x.u.abbr)}</b></div>`}
+    h+=`<div class="meal"><span>${esc(x.g.name)}</span><b>${fmt(x.q)} ${esc(x.u.abbr)}</b></div>`}
   $('#ls').innerHTML=`<button class="x" onclick="closeAll()">Close</button><div class="in"><h2>Shopping list</h2>
   ${list.length?`<div class="bar"><button class="p" id="cp">Copy list</button><button id="clr">Clear all</button></div>${h}
   <div class="cat">Meals</div>${list.map((e,i)=>`<div class="meal"><span>${esc(by('recipes',e.rid)?.title||'?')} ×${e.n}</span><button class="del" data-i="${i}" aria-label="Remove meal">Remove</button></div>`).join('')}`
@@ -109,7 +110,6 @@ function openList(){
 }
 async function copy(){
   const t=listText();
-  console.log(t);
   try{await navigator.clipboard.writeText(t)}catch(e){
     const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
   toast('List copied');
