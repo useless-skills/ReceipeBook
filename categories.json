@@ -1,0 +1,6 @@
+[
+  {"id": 1, "name": "Produce", "order": 1},
+  {"id": 2, "name": "Dairy & eggs", "order": 2},
+  {"id": 3, "name": "Pantry", "order": 3},
+  {"id": 4, "name": "Meat & fish", "order": 4}
+]

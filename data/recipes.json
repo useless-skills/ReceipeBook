@@ -1,0 +1,15 @@
+[
+  {
+    "title": "123",
+    "servings": 2,
+    "image": "",
+    "ingredients": [
+      {
+        "ingredient_id": 3,
+        "quantity": 1
+      }
+    ],
+    "steps": [],
+    "id": 1
+  }
+]

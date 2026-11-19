@@ -1,0 +1,11 @@
+[
+  {"id": 1, "name": "Flour", "unit_id": 1, "category_id": 3},
+  {"id": 2, "name": "Milk", "unit_id": 3, "category_id": 2},
+  {"id": 3, "name": "Eggs", "unit_id": 5, "category_id": 2},
+  {"id": 4, "name": "Sugar", "unit_id": 1, "category_id": 3},
+  {"id": 5, "name": "Butter", "unit_id": 1, "category_id": 2},
+  {"id": 6, "name": "Spaghetti", "unit_id": 1, "category_id": 3},
+  {"id": 7, "name": "Tomatoes", "unit_id": 1, "category_id": 1},
+  {"id": 8, "name": "Garlic cloves", "unit_id": 5, "category_id": 1},
+  {"id": 9, "name": "Olive oil", "unit_id": 6, "category_id": 3}
+]

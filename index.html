@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recipes & shopping list</title>
+<style>
+:root{--bg:#f6f7f3;--card:#fff;--ink:#1d2a22;--mut:#66726a;--acc:#2f7d4f;--onacc:#fff;--line:#dfe4da;--bad:#b4372a}
+@media(prefers-color-scheme:dark){:root{--bg:#141a16;--card:#1d2620;--ink:#e9efe9;--mut:#93a197;--acc:#5fc487;--onacc:#0e1a12;--line:#2b372f;--bad:#ef8a7c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Trebuchet MS","Segoe UI",system-ui,sans-serif;padding-bottom:84px}
+header{padding:20px 16px 8px;max-width:1000px;margin:auto}
+h1{margin:0 0 10px;font:700 28px Georgia,serif}
+input,button{font:inherit;color:inherit}
+#q{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 14px}
+button.p{background:var(--acc);color:var(--onacc);border-color:var(--acc);font-weight:700}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+#grid{max-width:1000px;margin:auto;padding:8px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;padding:0;display:block}
+.img{position:relative;aspect-ratio:4/3;background:linear-gradient(135deg,var(--acc),var(--line));display:grid;place-items:center;font-size:42px}
+.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card h2{margin:0;padding:12px 14px 2px;font:700 18px Georgia,serif}
+.card p{margin:0;padding:0 14px 12px;color:var(--mut);font-size:14px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:5}
+.ov.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:640px;max-height:94vh;overflow:auto;border-radius:18px 18px 0 0;padding:0 0 24px}
+.sheet .img{aspect-ratio:16/7}
+.in{padding:0 18px}
+.sheet h2{font:700 26px Georgia,serif;margin:14px 0 6px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.bar input{width:72px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card);text-align:center}
+ul.ing{list-style:none;margin:0;padding:0}
+ul.ing li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+ul.ing b{white-space:nowrap}
+ol{padding-left:22px}ol li{margin:0 0 10px}
+.x{position:sticky;top:8px;float:right;margin:8px;z-index:2}
+#fab{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);box-shadow:0 4px 16px rgba(0,0,0,.25);padding:12px 22px;border-radius:30px}
+.meal{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.meal button,.del{padding:2px 10px;color:var(--bad)}
+.cat{color:var(--mut);font-size:13px;margin:14px 0 2px}
+#toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:20px;display:none;z-index:9}
+.empty{color:var(--mut);padding:24px 0;text-align:center}
+@media(prefers-reduced-motion:no-preference){.sheet{animation:up .2s ease-out}@keyframes up{from{transform:translateY(40px)}}}
+</style></head><body>
+<header><h1>Recipes</h1><input id="q" type="search" placeholder="Search recipes" aria-label="Search recipes"></header>
+<main id="grid"></main>
+<button id="fab" class="p"></button>
+<div id="toast"></div>
+
+<div class="ov" id="rov"><div class="sheet" id="rs"></div></div>
+<div class="ov" id="lov"><div class="sheet" id="ls"></div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DB={};let list=[],cur=null;
+try{list=JSON.parse(localStorage.getItem('shopList'))||[]}catch(e){}
+const store=()=>{try{localStorage.setItem('shopList',JSON.stringify(list))}catch(e){}};
+const by=(k,id)=>DB[k].find(x=>x.id===id);
+const scale=(q,base,n)=>Math.ceil(q*n/base-1e-9);   // always round up
+const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',1800)};
+const pic=r=>`<div class="img">🍽️${r.image?`<img src="${esc(r.image)}" alt="" loading="lazy" onerror="this.remove()">`:''}</div>`;
+
+function cards(){
+  const q=$('#q').value.trim().toLowerCase();
+  const rs=DB.recipes.filter(r=>r.title.toLowerCase().includes(q));
+  $('#grid').innerHTML=rs.map(r=>`<button class="card" data-id="${r.id}">${pic(r)}<h2>${esc(r.title)}</h2><p>${r.servings} servings · ${r.ingredients.length} ingredients</p></button>`).join('')||'<div class="empty">No recipes found.</div>';
+}
+$('#grid').onclick=e=>{const c=e.target.closest('.card');if(c)openRecipe(+c.dataset.id)};
+$('#q').oninput=cards;
+
+function openRecipe(id){
+  cur=by('recipes',id);
+  $('#rs').innerHTML=`<button class="x" onclick="closeAll()">Close</button>${pic(cur)}<div class="in"><h2>${esc(cur.title)}</h2>
+  <div class="bar"><label for="n">Servings</label><input id="n" type="number" min="1" value="${cur.servings}" inputmode="numeric">
+  <button class="p" id="add">Add to shopping list</button></div>
+  <ul class="ing" id="ings"></ul><h3>Steps</h3><ol>${cur.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`;
+  $('#n').oninput=ings;$('#add').onclick=()=>{
+    const n=Math.max(1,parseInt($('#n').value)||1);
+    list.push({rid:cur.id,n});store();badge();closeAll();toast(`Added ${cur.title} ×${n}`)};
+  ings();$('#rov').classList.add('on');
+}
+function ings(){
+  const n=Math.max(1,parseInt($('#n').value)||1);
+  $('#ings').innerHTML=cur.ingredients.map(i=>{const g=by('ingredients',i.ingredient_id),u=by('units',g.unit_id);
+    return `<li><span>${esc(g.name)}</span><b>${scale(i.quantity,cur.servings,n)} ${esc(u.abbr)}</b></li>`}).join('');
+}
+
+// Sum all meals into one compact list
+function totals(){
+  const m=new Map();
+  for(const e of list){const r=by('recipes',e.rid);if(!r)continue;
+    for(const i of r.ingredients)m.set(i.ingredient_id,(m.get(i.ingredient_id)||0)+scale(i.quantity,r.servings,e.n));}
+  return [...m].map(([id,q])=>{const g=by('ingredients',id);return{g,q,u:by('units',g.unit_id),c:by('categories',g.category_id)}})
+   .sort((a,b)=>(a.c?.order??99)-(b.c?.order??99)||a.g.name.localeCompare(b.g.name));
+}
+const badge=()=>$('#fab').textContent=`🛒 Shopping list (${list.length})`;
+function listText(){return totals().map(t=>`${t.g.name}: ${t.q} ${t.u.abbr}`).join('\n')}
+function openList(){
+  const t=totals();let last,h='';
+  for(const x of t){if(x.c?.id!==last){last=x.c?.id;h+=`<div class="cat">${esc(x.c?.name||'Other')}</div>`}
+    h+=`<div class="meal"><span>${esc(x.g.name)}</span><b>${x.q} ${esc(x.u.abbr)}</b></div>`}
+  $('#ls').innerHTML=`<button class="x" onclick="closeAll()">Close</button><div class="in"><h2>Shopping list</h2>
+  ${list.length?`<div class="bar"><button class="p" id="cp">Copy list</button><button id="clr">Clear all</button></div>${h}
+  <div class="cat">Meals</div>${list.map((e,i)=>`<div class="meal"><span>${esc(by('recipes',e.rid)?.title||'?')} ×${e.n}</span><button class="del" data-i="${i}" aria-label="Remove meal">Remove</button></div>`).join('')}`
+  :'<div class="empty">Nothing here yet. Open a recipe and add it.</div>'}</div>`;
+  $('#lov').classList.add('on');
+  const cp=$('#cp');if(cp){cp.onclick=copy;$('#clr').onclick=()=>{if(confirm('Clear the whole list?')){list=[];store();badge();openList()}}}
+  $('#ls').querySelectorAll('.del').forEach(b=>b.onclick=()=>{list.splice(+b.dataset.i,1);store();badge();openList()});
+}
+async function copy(){
+  const t=listText();
+  console.log(t);
+  try{await navigator.clipboard.writeText(t)}catch(e){
+    const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}
+  toast('List copied');
+}
+function closeAll(){document.querySelectorAll('.ov').forEach(o=>o.classList.remove('on'))}
+document.querySelectorAll('.ov').forEach(o=>o.onclick=e=>{if(e.target===o)closeAll()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+$('#fab').onclick=openList;
+
+(async()=>{
+  try{for(const k of['units','categories','ingredients','recipes'])DB[k]=await(await fetch(`data/${k}.json`,{cache:'no-cache'})).json();
+    list=list.filter(e=>by('recipes',e.rid));store();badge();cards();
+  }catch(e){$('#grid').innerHTML='<div class="empty">Could not load data/*.json. Serve this folder over http (GitHub Pages or python server.py).</div>'}
+})();
+</script></body></html>

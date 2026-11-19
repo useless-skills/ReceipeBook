@@ -1,0 +1,9 @@
+[
+  {"id": 1, "name": "gram", "abbr": "g"},
+  {"id": 2, "name": "kilogram", "abbr": "kg"},
+  {"id": 3, "name": "milliliter", "abbr": "ml"},
+  {"id": 4, "name": "liter", "abbr": "l"},
+  {"id": 5, "name": "piece", "abbr": "pcs"},
+  {"id": 6, "name": "tablespoon", "abbr": "tbsp"},
+  {"id": 7, "name": "teaspoon", "abbr": "tsp"}
+]

@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recipe admin (local)</title>
+<style>
+:root{--bg:#f6f7f3;--card:#fff;--ink:#1d2a22;--mut:#66726a;--acc:#2f7d4f;--onacc:#fff;--line:#dfe4da;--bad:#b4372a}
+@media(prefers-color-scheme:dark){:root{--bg:#141a16;--card:#1d2620;--ink:#e9efe9;--mut:#93a197;--acc:#5fc487;--onacc:#0e1a12;--line:#2b372f;--bad:#ef8a7c}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 "Trebuchet MS","Segoe UI",system-ui,sans-serif}
+main{max-width:900px;margin:auto;padding:16px}
+h1{font:700 24px Georgia,serif;margin:0 0 12px}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 12px}
+button.p{background:var(--acc);color:var(--onacc);border-color:var(--acc);font-weight:700}
+button.d{color:var(--bad)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+nav button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-weight:600}
+td.a{white-space:nowrap;text-align:right;width:1%}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);width:min(620px,94vw);padding:18px}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+label{display:block;margin:10px 0 3px;color:var(--mut);font-size:13px}
+.row{display:grid;grid-template-columns:1fr 110px 40px;gap:6px;margin-bottom:6px}
+.f{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+#msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:20px;display:none}
+.mut{color:var(--mut)}
+</style></head><body><main>
+<h1>Recipe admin</h1>
+<nav id="tabs"></nav>
+<div class="top"><span class="mut" id="count"></span><button class="p" id="new">+ New</button></div>
+<div id="tbl"></div>
+<dialog id="dlg"><form method="dialog" id="frm"></form></dialog>
+<div id="msg"></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEYS=['recipes','ingredients','units','categories'];
+const TITLE={recipes:'Recipes',ingredients:'Ingredients',units:'Units',categories:'Categories'};
+const D={};let tab='recipes',images=[];
+// field schemas for the simple collections (ref = foreign key to another collection)
+const S={
+ units:[{k:'name',l:'Name (e.g. kilogram)'},{k:'abbr',l:'Abbreviation (e.g. kg)'}],
+ categories:[{k:'name',l:'Name (e.g. Dairy)'},{k:'order',l:'Order in shopping list',t:'number'}],
+ ingredients:[{k:'name',l:'Name'},{k:'unit_id',l:'Unit',ref:'units',show:'name'},{k:'category_id',l:'Category',ref:'categories',show:'name'}]};
+const COLS={units:['name','abbr'],categories:['order','name'],ingredients:['name','unit_id','category_id'],recipes:['title','servings','ingredients']};
+
+const msg=(t,bad)=>{const m=$('#msg');m.textContent=t;m.style.background=bad?'var(--bad)':'var(--ink)';m.style.display='block';clearTimeout(msg.t);msg.t=setTimeout(()=>m.style.display='none',2200)};
+const get=id=>(k,i)=>D[k].find(x=>x.id===i);
+const by=(k,i)=>D[k].find(x=>x.id===i);
+const nextId=k=>Math.max(0,...D[k].map(x=>x.id))+1;
+async function save(k){const r=await fetch('/api/'+k,{method:'PUT',body:JSON.stringify(D[k])});if(!r.ok)throw 0;}
+function usedBy(k,id){
+  if(k==='units')return D.ingredients.filter(i=>i.unit_id===id).map(i=>'ingredient '+i.name);
+  if(k==='categories')return D.ingredients.filter(i=>i.category_id===id).map(i=>'ingredient '+i.name);
+  if(k==='ingredients')return D.recipes.filter(r=>r.ingredients.some(x=>x.ingredient_id===id)).map(r=>'recipe '+r.title);
+  return[];
+}
+function cell(k,c,x){
+  if(c==='unit_id')return esc(by('units',x[c])?.abbr);
+  if(c==='category_id')return esc(by('categories',x[c])?.name);
+  if(c==='ingredients')return x[c].length;
+  return esc(x[c]);
+}
+function render(){
+  $('#tabs').innerHTML=KEYS.map(k=>`<button aria-pressed="${k===tab}" data-k="${k}">${TITLE[k]} (${D[k].length})</button>`).join('');
+  const nm=tab==='recipes'?'title':'name';
+  const rows=[...D[tab]].sort((a,b)=>String(a[nm]??a.order).localeCompare(String(b[nm]??b.order),undefined,{numeric:true}));
+  $('#count').textContent=`${rows.length} ${TITLE[tab].toLowerCase()}`;
+  $('#tbl').innerHTML=rows.length?`<table><tr><th>ID</th>${COLS[tab].map(c=>`<th>${c.replace('_id','').replace('ingredients','# ingredients')}</th>`).join('')}<th></th></tr>`+
+   rows.map(x=>`<tr><td class="mut">${x.id}</td>${COLS[tab].map(c=>`<td>${cell(tab,c,x)}</td>`).join('')}<td class="a"><button data-e="${x.id}">Edit</button> <button class="d" data-x="${x.id}">Delete</button></td></tr>`).join('')+'</table>'
+   :'<p class="mut">Nothing yet. Use “+ New”.</p>';
+}
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(b){tab=b.dataset.k;render()}};
+$('#new').onclick=()=>form(null);
+$('#tbl').onclick=async e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.e)return form(by(tab,+b.dataset.e));
+  const id=+b.dataset.x,u=usedBy(tab,id);
+  if(u.length)return msg('In use by: '+u.slice(0,3).join(', ')+(u.length>3?'…':''),1);
+  if(!confirm('Delete this item?'))return;
+  D[tab]=D[tab].filter(x=>x.id!==id);await save(tab);render();msg('Deleted');
+};
+
+function form(item){
+  const isNew=!item;item=item||{};cur=item;
+  const h=tab==='recipes'?recipeForm(item):S[tab].map(f=>{
+    const v=item[f.k]??'';
+    return `<label for="f_${f.k}">${f.l}</label>`+(f.ref?`<select id="f_${f.k}">${D[f.ref].map(o=>`<option value="${o.id}" ${o.id===v?'selected':''}>${esc(o[f.show])}</option>`).join('')}</select>`:`<input id="f_${f.k}" type="${f.t||'text'}" value="${esc(v)}">`)}).join('');
+  $('#frm').innerHTML=`<h2>${isNew?'New':'Edit'} ${TITLE[tab].slice(0,-1).toLowerCase()}</h2>${h}<div class="f"><button type="button" id="cancel">Cancel</button><button type="submit" class="p" id="ok">Save</button></div>`;
+  if(tab==='recipes')wireRecipe();
+  $('#cancel').onclick=()=>$('#dlg').close();
+  $('#dlg').showModal();
+  $('#ok').onclick=async e=>{e.preventDefault();
+    const o=tab==='recipes'?readRecipe():readSimple();
+    if(typeof o==='string')return msg(o,1);
+    if(isNew){o.id=nextId(tab);D[tab].push(o)}else Object.assign(item,o);
+    try{await save(tab);$('#dlg').close();render();msg('Saved')}catch(_){msg('Save failed. Is server.py running?',1)}
+  };
+}
+function readSimple(){
+  const o={};
+  for(const f of S[tab]){let v=$('#f_'+f.k).value.trim();if(f.ref||f.t==='number')v=Number(v);o[f.k]=v;
+    if(f.k==='name'&&!v)return 'Name is required';}
+  if(tab==='ingredients'&&(!o.unit_id||!o.category_id))return 'Create a unit and a category first';
+  if(D[tab].some(x=>x.name?.toLowerCase()===o.name.toLowerCase()&&x.id!==cur.id))return 'That name already exists';
+  return o;
+}
+let cur=null;
+
+function recipeForm(r){
+  cur=r;
+  return `<label for="f_title">Title</label><input id="f_title" value="${esc(r.title)}">
+  <label for="f_servings">Servings this recipe makes</label><input id="f_servings" type="number" min="1" value="${r.servings||4}">
+  <label for="f_image">Image (file in images/)</label>
+  <div class="row" style="grid-template-columns:1fr auto"><input id="f_image" list="imgs" value="${esc(r.image)}" placeholder="images/name.jpg"><input type="file" id="up" accept="image/*" style="width:auto"></div>
+  <datalist id="imgs">${images.map(i=>`<option value="images/${esc(i)}">`).join('')}</datalist>
+  <label>Ingredients</label><div id="rows"></div><button type="button" id="addrow">+ Ingredient</button>
+  <label for="f_steps">Steps (one per line)</label><textarea id="f_steps" rows="7">${esc((r.steps||[]).join('\n'))}</textarea>`;
+}
+function rowHtml(i){
+  return `<div class="row"><select>${[...D.ingredients].sort((a,b)=>a.name.localeCompare(b.name)).map(g=>`<option value="${g.id}" ${g.id===i.ingredient_id?'selected':''}>${esc(g.name)} (${esc(by('units',g.unit_id)?.abbr)})</option>`).join('')}</select>
+  <input type="number" min="0" step="any" value="${i.quantity??''}" placeholder="Qty"><button type="button" class="d" aria-label="Remove">✕</button></div>`;
+}
+function wireRecipe(){
+  const rows=$('#rows');
+  (cur.ingredients||[{}]).forEach(i=>rows.insertAdjacentHTML('beforeend',rowHtml(i)));
+  $('#addrow').onclick=()=>rows.insertAdjacentHTML('beforeend',rowHtml({}));
+  rows.onclick=e=>{if(e.target.closest('.d'))e.target.closest('.row').remove()};
+  $('#up').onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    const name=f.name.toLowerCase().replace(/[^\w.\-]+/g,'-');
+    const r=await fetch('/api/upload/'+name,{method:'POST',body:f});
+    if(!r.ok)return msg('Upload failed (jpg, png, webp, gif only)',1);
+    const j=await r.json();$('#f_image').value=j.path;if(!images.includes(name))images.push(name);msg('Image uploaded');
+  };
+}
+function readRecipe(){
+  const title=$('#f_title').value.trim(),servings=Number($('#f_servings').value);
+  if(!title)return 'Title is required';
+  if(!(servings>=1))return 'Servings must be at least 1';
+  const ing=[...document.querySelectorAll('#rows .row')].map(r=>({ingredient_id:Number(r.querySelector('select').value),quantity:Number(r.querySelector('input').value)}));
+  if(!ing.length||ing.some(i=>!i.ingredient_id||!(i.quantity>0)))return 'Each ingredient needs a quantity above 0';
+  if(new Set(ing.map(i=>i.ingredient_id)).size<ing.length)return 'An ingredient appears twice';
+  return{title,servings,image:$('#f_image').value.trim(),ingredients:ing,steps:$('#f_steps').value.split('\n').map(s=>s.trim()).filter(Boolean)};
+}
+
+(async()=>{
+  try{for(const k of KEYS)D[k]=await(await fetch('/api/'+k)).json();images=await(await fetch('/api/images')).json();if(!Array.isArray(images))images=[];render()}
+  catch(e){document.body.innerHTML='<main><h1>Server not reachable</h1><p>Run <code>python server.py</code> in the project folder and open http://localhost:8000/admin.html</p></main>'}
+})();
+</script></main></body></html>

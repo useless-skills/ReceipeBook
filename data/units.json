@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Litru",
+    "abbr": "l",
+    "id": 1
+  },
+  {
+    "name": "Kilogram",
+    "abbr": "KG",
+    "id": 2
+  },
+  {
+    "name": "Bucata",
+    "abbr": "buc",
+    "id": 3
+  }
+]

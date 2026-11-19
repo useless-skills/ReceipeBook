@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Paste",
+    "order": 0,
+    "id": 1
+  },
+  {
+    "name": "Legume",
+    "order": 0,
+    "id": 2
+  },
+  {
+    "name": "Lactate",
+    "order": 3,
+    "id": 3
+  },
+  {
+    "name": "Fructe",
+    "order": 1,
+    "id": 4
+  }
+]
