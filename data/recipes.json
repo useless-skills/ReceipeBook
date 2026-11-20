@@ -1,0 +1,182 @@
+[
+  {
+    "title": "Noodles cu pui",
+    "servings": 6,
+    "image": "images/noodle.webp",
+    "ingredients": [
+      {
+        "ingredient_id": 3,
+        "quantity": 1
+      },
+      {
+        "ingredient_id": 8,
+        "quantity": 1
+      },
+      {
+        "ingredient_id": 2,
+        "quantity": 2
+      },
+      {
+        "ingredient_id": 1,
+        "quantity": 1
+      },
+      {
+        "ingredient_id": 7,
+        "quantity": 50
+      },
+      {
+        "ingredient_id": 6,
+        "quantity": 0.2
+      },
+      {
+        "ingredient_id": 4,
+        "quantity": 100
+      },
+      {
+        "ingredient_id": 5,
+        "quantity": 250
+      },
+      {
+        "ingredient_id": 13,
+        "quantity": 0.5
+      },
+      {
+        "ingredient_id": 15,
+        "quantity": 2
+      },
+      {
+        "ingredient_id": 14,
+        "quantity": 1
+      }
+    ],
+    "steps": [
+      "Legumele: Curăță ceapa și taie-o julienne (solzișori subțiri). Curăță cei 2 morcovi și taie-i bastonașe foarte subțiri (julienne) sau fâșii cu curățătorul de legume.",
+      "Usturoiul și ghimbirul: Curăță cei 2 căței de usturoi și toacă-i mărunt sau zdrobește-i. Curăță ghimbirul de coajă (poți folosi marginea unei lingurițe) și dă-l pe răzătoarea mică sau toacă-l foarte fin.",
+      "Ciupercile: Desfă conserva, scurge foarte bine lichidul într-o sită și tamponează ciupercile cu un șervețel de hârtie, ca să se rumenească în tigaie în loc să fiarbă.",
+      "Amestecul lichid: Într-un bol sau o cană gradată, combină cei 250 ml de vin roșu, cei 100 ml de sos de soia și cei 50 ml de miere. Amestecă bine până când mierea se dizolvă complet.",
+      "Încinge 1–2 linguri de ulei într-un wok sau o tigaie adâncă și largă, la foc mare.",
+      "Pune ceapa și morcovii în tigaie. Călește-le timp de 3–4 minute, amestecând frecvent, până când ceapa devine translucidă, iar morcovii se înmoaie ușor, dar rămân ușor crocanți.",
+      "Adaugă ciupercile bine scurse și mai gătește totul încă 2–3 minute, până prind puțină culoare.",
+      "Fă puțin loc în mijlocul tigăii, adaugă usturoiul și ghimbirul și călește-le rapid timp de 30–45 de secunde, amestecând continuu doar cât să își elibereze aroma (ai grijă să nu se ardă usturoiul, altfel devine amar).",
+      "Toarnă imediat peste legume amestecul de vin roșu, sos de soia și miere.",
+      "Lasă sosul să fiarbă la foc mediu spre mare timp de 6–8 minute, neacoperit, până când alcoolul se evaporă, volumul lichidului scade cam la jumătate, iar mierea îl leagă într-un sos lucios și ușor siropos.",
+      "În timp ce sosul scade pe foc, pregătește pastele:",
+      "Pune la fiert o oală cu apă. Când clocotește, adaugă pachetul de noodles de grâu și fierbe-i conform instrucțiunilor de pe ambalaj (3–5 minute).",
+      "Scurge-i imediat într-o strecurătoare și trece-i sub un jet scurt de apă rece pentru a opri gătirea și a împiedica lipirea.",
+      "Când sosul din tigaie a scăzut suficient, adaugă noodles-ii scurși direct peste legume.",
+      "Amestecă bine timp de 1–2 minute la foc mic, folosind un clește sau două spatule, până când pastele absorb o parte din sos și sunt acoperite uniform.",
+      "Oprește focul și presară semințele de susan.",
+      "Împarte noodles-ii cu legume în farfurii, așază deasupra bucățile de pui crispy deja preparat (pentru a-și păstra crusta crocantă) și servește totul cu sos sweet chilli turnat peste pui sau alături."
+    ],
+    "id": 1
+  },
+  {
+    "title": "Risotto",
+    "servings": 4,
+    "image": "images/risotto.jpg",
+    "ingredients": [
+      {
+        "ingredient_id": 16,
+        "quantity": 0.25
+      },
+      {
+        "ingredient_id": 18,
+        "quantity": 250
+      },
+      {
+        "ingredient_id": 8,
+        "quantity": 1
+      },
+      {
+        "ingredient_id": 15,
+        "quantity": 3
+      },
+      {
+        "ingredient_id": 3,
+        "quantity": 0.5
+      },
+      {
+        "ingredient_id": 17,
+        "quantity": 2
+      },
+      {
+        "ingredient_id": 19,
+        "quantity": 100
+      }
+    ],
+    "steps": [
+      "Stocul de pui: Pune 1 litru de apă la fiert într-o cratiță separată și dizolvă cele 2 cuburi de supă de pui. Păstrează supa fierbinte pe foc foarte mic pe tot parcursul gătitului (lichidul rece oprește fierberea și împiedică eliberarea uniformă a amidonului).",
+      "Legumele: Toacă jumătatea de ceapă cât mai mărunt posibil (cubulețe fine). Curăță cei 3 căței de usturoi și toacă-i fin sau zdrobește-i.",
+      "Ciupercile: Desfă conserva, scurge foarte bine ciupercile într-o sită și tamponează-le ușor cu un șervețel de hârtie, ca să se rumenească în tigaie, nu să fiarbă.",
+      "Parmezanul: Rade cele 100 g de parmezan pe răzătoarea mică, pentru a se topi instantaneu la final.",
+      "Încinge 1 lingură de ulei într-o cratiță largă sau o tigaie adâncă, la foc mediu spre mare.",
+      "Adaugă ciupercile scurse și sotează-le timp de 3–4 minute, amestecând ocazional, până prind o ușoară crustă aurie. Scoate-le pe o farfurie și lasă-le deoparte.",
+      "În aceeași cratiță, mai pune 1 lingură de ulei (sau puțin unt), redu focul la mediu-mic și adaugă ceapa tocată mărunt. Călește-o timp de 3–4 minute până devine sticloasă, fără să se ardă.",
+      "Adaugă usturoiul tocat și gătește-l timp de 30–45 de secunde, amestecând continuu, doar cât să își elibereze aroma.",
+      "Toarnă cele 250 g de orez uscat direct peste ceapă și usturoi. Amestecă continuu timp de 1,5–2 minute la foc mediu, până când marginile boabelor devin translucide, iar mijlocul rămâne alb.",
+      "Toarnă toți cei 250 ml de vin alb sec peste orezul fierbinte (va sfârâi puternic și va deglasa aromele de pe fundul cratiței).",
+      "Amestecă constant la foc mediu timp de 2–3 minute, până când alcoolul se evaporă complet (nu se mai simte mirosul înțepător de alcool în abur), iar vinul este absorbit aproape în întregime de orez.",
+      "Ia un polonic din supa fierbinte de pui și toarnă-l peste orez.",
+      "Amestecă constant la foc mediu, până când orezul absoarbe aproape tot lichidul.",
+      "Continuă să adaugi supă câte un polonic pe rând, așteptând de fiecare dată ca lichidul anterior să fie absorbit înainte de a-l adăuga pe următorul.",
+      "După aproximativ 12–13 minute de la adăugarea vinului, pune înapoi în cratiță ciupercile rumenite anterior.",
+      "Continuă procesul cu supă până la 16–18 minute în total. Orezul este gata când este moale la exterior, dar își păstrează o ușoară fermitate la mijloc (al dente), iar consistența generală este fluidă și cremoasă.",
+      "Oprește focul și trage cratița deoparte.",
+      "Adaugă cele 100 g de parmezan ras (și, opțional, un cubuleț de unt rece tăiat bucăți) și piper negru proaspăt măcinat.",
+      "Amestecă energic timp de 30–60 de secunde, până când parmezanul se topește complet și leagă totul într-o cremă lucioasă.",
+      "Gustă și potrivește de sare doar dacă mai este necesar. Pune un capac peste cratiță, lasă risotto-ul să se odihnească 1–2 minute, apoi servește-l imediat."
+    ],
+    "id": 2
+  },
+  {
+    "title": "Tortelloni gratinați",
+    "servings": 4,
+    "image": "images/tortelloni.webp",
+    "ingredients": [
+      {
+        "ingredient_id": 20,
+        "quantity": 300
+      },
+      {
+        "ingredient_id": 21,
+        "quantity": 500
+      },
+      {
+        "ingredient_id": 7,
+        "quantity": 30
+      },
+      {
+        "ingredient_id": 4,
+        "quantity": 40
+      },
+      {
+        "ingredient_id": 3,
+        "quantity": 0.5
+      },
+      {
+        "ingredient_id": 22,
+        "quantity": 30
+      }
+    ],
+    "steps": [
+      "Curăță jumătatea de ceapă și toac-o cât mai mărunt posibil, astfel încât să se integreze fin în sos.",
+      "Încinge 1–2 linguri de ulei într-o tigaie adâncă sau o crăticioară, la foc mediu-mic. Adaugă ceapa tocată și călește-o timp de 3–4 minute, până devine translucidă.",
+      "Presară pudra de curry direct peste ceapă și amestecă energic timp de 20–30 de secunde, doar cât să își elibereze aromele în ulei.",
+      "Toarnă sosul de roșii, apoi adaugă imediat mierea, muștarul și sosul de soia. Amestecă bine cu un tel sau o lingură până când toate ingredientele se încorporează uniform.",
+      "Lasă sosul să fiarbă la foc mic, neacoperit, timp de 10–12 minute, amestecând din când în când. În acest timp, excesul de lichid din sosul de roșii și cel de soia se evaporă, aromele se concentrează, iar sosul scade și capătă o consistență densă și lucioasă.",
+      "La final, gustă sosul și potrivește-l cu piper negru (și sare doar dacă mai este necesar).",
+      "În timp ce sosul scade pe foc, pregătește pastele:",
+      "Pune la fiert o oală încăpătoare cu apă și puțină sare.",
+      "Când apa clocotește, adaugă tortelloni și fierbe-i cu 1–2 minute mai puțin decât timpul indicat pe ambalaj (de obicei 2–3 minute pentru cei proaspeți, respectiv 7–8 minute pentru cei uscați). Pastele se vor mai găti și la cuptor, așa că trebuie să rămână ferme (al dente), ca să nu se rupă la amestecare.",
+      "Scurge-i ușor într-o strecurătoare.",
+      "Preîncălzește cuptorul la 200°C (căldură sus-jos, ideal cu funcția de grill/ventilație activată spre final).",
+      "Unge ușor un vas termorezistent (de yena sau ceramică) sau întinde un strat subțire din sosul de roșii pe fundul acestuia, pentru a preveni lipirea.",
+      "Pune tortelloni fierți în tigaia cu sosul de roșii scăzut (sau amestecă-i direct în vasul termorezistent), având grijă să îi îmbraci uniform în sos fără să îi zdrobești.",
+      "Toarnă sosul bechamel deja preparat deasupra stratului de tortelloni cu sos de roșii, întinzându-l uniform cu o spatulă pentru a acoperi toată suprafața.",
+      "Presară deasupra brânza rasă (cașcaval, mozzarella sau parmezan).",
+      "Introdu vasul pe raftul din mijloc-sus al cuptorului preîncălzit și coace timp de 12–15 minute, până când sosul bolborosește pe margini, iar stratul de deasupra devine auriu și ușor rumenit. (Dacă folosești funcția grill în ultimele 2–3 minute, supraveghează vasul ca să nu se ardă brânza).",
+      "Scoate vasul din cuptor și lasă preparatul să se odihnească 5 minute înainte de porționare, astfel încât straturile de sos să se așeze și să nu fie excesiv de fierbinte la servire."
+    ],
+    "id": 3
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "name": "noodles grâu",
+    "unit_id": 5,
+    "category_id": 5,
+    "id": 1
+  },
+  {
+    "name": "morcovi",
+    "unit_id": 5,
+    "category_id": 1,
+    "id": 2
+  },
+  {
+    "name": "ceapa",
+    "unit_id": 5,
+    "category_id": 1,
+    "id": 3
+  },
+  {
+    "name": "sos de soia",
+    "unit_id": 4,
+    "category_id": 4,
+    "id": 4
+  },
+  {
+    "name": "vin roșu dulce",
+    "unit_id": 4,
+    "category_id": 12,
+    "id": 5
+  },
+  {
+    "name": "semințe de susan",
+    "unit_id": 5,
+    "category_id": 7,
+    "id": 6
+  },
+  {
+    "name": "miere",
+    "unit_id": 4,
+    "category_id": 6,
+    "id": 7
+  },
+  {
+    "name": "ciperci la conservă",
+    "unit_id": 5,
+    "category_id": 4,
+    "id": 8
+  },
+  {
+    "name": "fulgi de porumb",
+    "unit_id": 5,
+    "category_id": 7,
+    "id": 9
+  },
+  {
+    "name": "pesmet",
+    "unit_id": 2,
+    "category_id": 3,
+    "id": 10
+  },
+  {
+    "name": "oua",
+    "unit_id": 5,
+    "category_id": 8,
+    "id": 11
+  },
+  {
+    "name": "carne de pui",
+    "unit_id": 1,
+    "category_id": 14,
+    "id": 12
+  },
+  {
+    "name": "crispy de pui",
+    "unit_id": 1,
+    "category_id": 13,
+    "id": 13
+  },
+  {
+    "name": "ghimbir",
+    "unit_id": 5,
+    "category_id": 1,
+    "id": 14
+  },
+  {
+    "name": "usturoi",
+    "unit_id": 6,
+    "category_id": 1,
+    "id": 15
+  },
+  {
+    "name": "orez",
+    "unit_id": 1,
+    "category_id": 5,
+    "id": 16
+  },
+  {
+    "name": "cuburi supă de pui",
+    "unit_id": 5,
+    "category_id": 4,
+    "id": 17
+  },
+  {
+    "name": "vin alb sec",
+    "unit_id": 4,
+    "category_id": 12,
+    "id": 18
+  },
+  {
+    "name": "parmezan",
+    "unit_id": 2,
+    "category_id": 8,
+    "id": 19
+  },
+  {
+    "name": "tortelloni",
+    "unit_id": 2,
+    "category_id": 5,
+    "id": 20
+  },
+  {
+    "name": "sos de roșii",
+    "unit_id": 4,
+    "category_id": 4,
+    "id": 21
+  },
+  {
+    "name": "muștar",
+    "unit_id": 4,
+    "category_id": 4,
+    "id": 22
+  }
+]

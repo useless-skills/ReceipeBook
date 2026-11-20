@@ -1,0 +1,32 @@
+[
+  {
+    "name": "kilograme",
+    "abbr": "KG",
+    "id": 1
+  },
+  {
+    "name": "grame",
+    "abbr": "g",
+    "id": 2
+  },
+  {
+    "name": "litri",
+    "abbr": "l",
+    "id": 3
+  },
+  {
+    "name": "mililitri",
+    "abbr": "ml",
+    "id": 4
+  },
+  {
+    "name": "bucăți",
+    "abbr": "buc",
+    "id": 5
+  },
+  {
+    "name": "căței",
+    "abbr": "căței",
+    "id": 6
+  }
+]
